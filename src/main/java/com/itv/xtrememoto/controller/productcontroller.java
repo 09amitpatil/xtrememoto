@@ -21,7 +21,6 @@ import com.itv.xtrememoto.dtos.RegisterProductDto;
 import com.itv.xtrememoto.entities.Product;
 import com.itv.xtrememoto.services.ProductServices;
 
-import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 
 @CrossOrigin(origins = {"*"},maxAge = 4800,allowCredentials = "false")
@@ -33,19 +32,19 @@ public class productcontroller {
     private ProductServices productServices;
 
     // adding data
-    @PostMapping("/product")
+    @PostMapping("/products")
     public ResponseEntity<?> registerMob(@RequestBody @Valid RegisterProductDto registerProductDto) {
         return new ResponseEntity<>(this.productServices.registerproduct(registerProductDto), HttpStatus.CREATED);
     }
 
     // retriving data
-    @GetMapping("/product")
+    @GetMapping("/products")
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(this.productServices.getAll());
     }
 
     // searching data
-    @GetMapping("/product/{id}")
+    @GetMapping("/products/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id) {
         Product mobExits = this.productServices.getById(id);
         if (mobExits != null) {
@@ -55,8 +54,8 @@ public class productcontroller {
         }
     }
 
-    // 
-    @DeleteMapping("/product/{id}")
+    
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<?> deletepet(@PathVariable Integer id) {
         Product mobExits = this.productServices.getById(id);
         if (mobExits != null) {
@@ -67,7 +66,7 @@ public class productcontroller {
         }
     }
 
-    @PutMapping("/product/{id}")
+    @PutMapping("/products/{id}")
     public ResponseEntity<?> updatemob(@PathVariable Integer id) {
         Product mobExits = this.productServices.getById(id);
         if (mobExits != null) {
@@ -78,7 +77,7 @@ public class productcontroller {
         }
     }
 
-    @GetMapping("/product/searchbyname")
+    @GetMapping("/products/searchbyname")
     public ResponseEntity<?> findByname(@RequestParam("name") String name) {
         List<Product> products = this.productServices.findByName(name);
         if (products.isEmpty()) {
@@ -88,13 +87,13 @@ public class productcontroller {
         }
     }
 
-     @PutMapping("/product/{id}/upload")
+    @PutMapping("/products/{id}/upload")
     public ResponseEntity<?> upload(@PathVariable Integer id, @RequestParam MultipartFile file) {
         System.out.println("File Uploaded");
         return ResponseEntity.ok(this.productServices.uploadFile(id, file));
     }
 
-    @GetMapping("/product/download/{filename}")
+    @GetMapping("/products/download/{filename}")
     public ResponseEntity<?> download(@PathVariable String filename) {
         UrlResource resource = this.productServices.downloadFile(filename);
         return ResponseEntity.ok()

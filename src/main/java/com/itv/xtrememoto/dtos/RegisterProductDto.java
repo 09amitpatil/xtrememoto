@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class RegisterProductDto {
     private Integer id;
-    @Size(min = 4,max = 10,message = "name length should have min 4 max 10 char")
+    @Size(min = 4,max = 20,message = "name length should have min 4 max 20 char")
     private String name;
     
     private String Manufature;

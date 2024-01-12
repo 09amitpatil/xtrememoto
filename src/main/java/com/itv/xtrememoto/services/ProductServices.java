@@ -18,9 +18,6 @@ import com.itv.xtrememoto.FileStorageProperties;
 import com.itv.xtrememoto.dtos.RegisterProductDto;
 import com.itv.xtrememoto.entities.Product;
 import com.itv.xtrememoto.repositories.ProductRepository;
-
-import jakarta.annotation.Resource;
-import jakarta.persistence.criteria.Path;
 @Service
 public class ProductServices {
    @Autowired
@@ -91,7 +88,7 @@ public class ProductServices {
         // ServletUriComponentBuilder.forCurrentContextPath() ===> the context path
         // Here for this project the contextpath is http://localhost:8080
         String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/product/download/")
+                .path("/products/download/")
                 .path(file.getOriginalFilename())
                 .toUriString();
 
