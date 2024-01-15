@@ -33,7 +33,7 @@ public class productcontroller {
 
     // adding product
     @PostMapping("/products")
-    public ResponseEntity<?> registerMob(@RequestBody @Valid RegisterProductDto registerProductDto) {
+    public ResponseEntity<?> registerproduct(@RequestBody @Valid RegisterProductDto registerProductDto) {
         return new ResponseEntity<>(this.productServices.registerproduct(registerProductDto), HttpStatus.CREATED);
     }
 
