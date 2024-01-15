@@ -1,13 +1,13 @@
 package com.itv.xtrememoto.repositories;
 
-
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.itv.xtrememoto.entities.Product;
-@CrossOrigin(origins = {"*"},maxAge = 4800,allowCredentials = "false")
+
+@CrossOrigin(origins = { "*" }, maxAge = 4800, allowCredentials = "false")
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 

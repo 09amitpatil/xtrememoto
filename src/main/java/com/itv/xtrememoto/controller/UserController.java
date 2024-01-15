@@ -2,7 +2,6 @@ package com.itv.xtrememoto.controller;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,83 +24,69 @@ import jakarta.validation.Valid;
 public class UserController {
     @Autowired
     private UserServices userServices;
-//adding data
+
+    // adding user
     @PostMapping("/users")
-    public ResponseEntity<?> registerUser(@RequestBody  @Valid RegistorUserDto registerUserDto)
-    {
-        return  new  ResponseEntity<>(this.userServices.registerUser(registerUserDto),HttpStatus.CREATED);
+    public ResponseEntity<?> registerUser(@RequestBody @Valid RegistorUserDto registerUserDto) {
+        return new ResponseEntity<>(this.userServices.registerUser(registerUserDto), HttpStatus.CREATED);
     }
-    //retriving data
+
+    // retriving user
     @GetMapping("/users")
-   public ResponseEntity<?>getAll()
-   {
-    return ResponseEntity.ok(this.userServices.getAll());
-   }
-  //searching data
-  @GetMapping("/users/{id}")
-public ResponseEntity<?>getById(@PathVariable Integer id)
-   {
-    User userExits=this.userServices.getById(id);
-    if(userExits!=null)
-    {
-        return new ResponseEntity<>(userExits,HttpStatus.OK);
+    public ResponseEntity<?> getAll() {
+        return ResponseEntity.ok(this.userServices.getAll());
     }
-    else{
-        return new ResponseEntity<>("user not found",HttpStatus.NOT_FOUND);
+
+    // searching user
+    @GetMapping("/users/{id}")
+    public ResponseEntity<?> getById(@PathVariable Integer id) {
+        User userExits = this.userServices.getById(id);
+        if (userExits != null) {
+            return new ResponseEntity<>(userExits, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("user not found", HttpStatus.NOT_FOUND);
+        }
     }
-   }
+    //deleting user
     @DeleteMapping("/users/{id}")
-   public ResponseEntity<?>deleteuser(@PathVariable Integer id)
-   {
-    User userExits=this.userServices.getById(id);
-    if(userExits!=null)
-    {
-        this.userServices.deleteuser(id);
-        return new ResponseEntity<>("user deleted sucessfully",HttpStatus.OK);
+    public ResponseEntity<?> deleteuser(@PathVariable Integer id) {
+        User userExits = this.userServices.getById(id);
+        if (userExits != null) {
+            this.userServices.deleteuser(id);
+            return new ResponseEntity<>("user deleted sucessfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("user not found", HttpStatus.NOT_FOUND);
+        }
     }
-    else{
-        return new ResponseEntity<>("user not found",HttpStatus.NOT_FOUND);
+    //update user
+    @PutMapping("/users/{id}")
+    public ResponseEntity<?> updateuser(@PathVariable Integer id) {
+        User userExits = this.userServices.getById(id);
+        if (userExits != null) {
+            this.userServices.deleteuser(id);
+            return new ResponseEntity<>("user update sucessfully", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("user not found", HttpStatus.NOT_FOUND);
+        }
     }
-   }
-   @PutMapping("/users/{id}")
-   public ResponseEntity<?>updateuser(@PathVariable Integer id)
-   {
-    User userExits=this.userServices.getById(id);
-    if(userExits!=null)
-    {
-        this.userServices.deleteuser(id);
-        return new ResponseEntity<>("user update sucessfully",HttpStatus.OK);
-    }
-    else{
-        return new ResponseEntity<>("user not found",HttpStatus.NOT_FOUND);
-    }
-   }
 
-  @GetMapping("/users/searchbyfname")
-   public ResponseEntity<?>findByFirstname(@RequestParam("firstname")String firstname)
-   {
-   List<User>users= this.userServices.findByfirstname(firstname);
-    if(users.isEmpty())
-    {
-     return new ResponseEntity<>("no user exist with this  name",HttpStatus.NOT_FOUND);
+    @GetMapping("/users/searchbyfname")
+    public ResponseEntity<?> findByFirstname(@RequestParam("firstname") String firstname) {
+        List<User> users = this.userServices.findByfirstname(firstname);
+        if (users.isEmpty()) {
+            return new ResponseEntity<>("no user exist with this  name", HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(this.userServices.findByfirstname(firstname), HttpStatus.NOT_FOUND);
+        }
     }
-else
-{
-    return new ResponseEntity<>(this.userServices.findByfirstname(firstname),HttpStatus.NOT_FOUND);
-    }  
-}
 
- @GetMapping("/users/searchbyemail")
-   public ResponseEntity<?>findByemailContaining(@RequestParam String email)
-   {
-   List<User>users= this.userServices.findByemail(email);
-    if(users.isEmpty())
-    {
-     return new ResponseEntity<>("no user exist with this  email",HttpStatus.NOT_FOUND);
+    @GetMapping("/users/searchbyemail")
+    public ResponseEntity<?> findByemailContaining(@RequestParam String email) {
+        List<User> users = this.userServices.findByemail(email);
+        if (users.isEmpty()) {
+            return new ResponseEntity<>("no user exist with this  email", HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(users, HttpStatus.NOT_FOUND);
+        }
     }
-else
-{
-    return new ResponseEntity<>(users,HttpStatus.NOT_FOUND);
-    }  
-}
 }

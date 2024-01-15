@@ -18,13 +18,14 @@ import com.itv.xtrememoto.FileStorageProperties;
 import com.itv.xtrememoto.dtos.RegisterProductDto;
 import com.itv.xtrememoto.entities.Product;
 import com.itv.xtrememoto.repositories.ProductRepository;
+
 @Service
 public class ProductServices {
-   @Autowired
-   private ProductRepository repository;
+    @Autowired
+    private ProductRepository repository;
 
     public Product registerproduct(RegisterProductDto registerproductDto) {
-        Product product=new Product();
+        Product product = new Product();
         product.setName(registerproductDto.getName());
         product.setManufature(registerproductDto.getManufature());
         product.setPrice(registerproductDto.getPrice());
@@ -33,30 +34,29 @@ public class ProductServices {
         return product;
 
     }
-    public List<Product> getAll() 
-       {
+
+    public List<Product> getAll() {
         return repository.findAll();
-       }
-    public Product getById(Integer id)
-       {
+    }
+
+    public Product getById(Integer id) {
         return repository.findById(id).orElse(null);
-       }
-    public void deleteproduct(Integer id) 
-       {
+    }
+
+    public void deleteproduct(Integer id) {
         repository.deleteById(id);
-       }
-    public Product updateproduct(Integer id,Product product)
-       {
+    }
+
+    public Product updateproduct(Integer id, Product product) {
         product.setId(id);
         return repository.save(product);
-       }
+    }
 
-       public   List<Product>findByName(String name)
-       {
-         return this.repository.findByName(name);
-       }
-    
-     private final java.nio.file.Path rootLocation;
+    public List<Product> findByName(String name) {
+        return this.repository.findByName(name);
+    }
+
+    private final java.nio.file.Path rootLocation;
 
     public ProductServices(FileStorageProperties properties) {
         this.rootLocation = Paths.get(properties.getUploadDir());
@@ -69,12 +69,9 @@ public class ProductServices {
     }
 
     public String uploadFile(Integer id, MultipartFile file) {
-        // Set the name of the file to be created in the upload folder
-        // same as that of the original filename
+
         java.nio.file.Path destinationFile = this.rootLocation.resolve(Paths.get(file.getOriginalFilename()));
 
-        // Copy the file from the client machine to the upload folder
-        // Actual upload operation
         try {
             InputStream inputStream = file.getInputStream();
             Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
@@ -84,9 +81,6 @@ public class ProductServices {
                     "File Cannot be uploaded");
         }
 
-        // Set the imageUrl field of the product
-        // ServletUriComponentBuilder.forCurrentContextPath() ===> the context path
-        // Here for this project the contextpath is http://localhost:8080
         String imageUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/products/download/")
                 .path(file.getOriginalFilename())
@@ -107,12 +101,9 @@ public class ProductServices {
             UrlResource resource = new UrlResource(file.toUri());
 
             if (((org.springframework.core.io.Resource) resource).exists()
-                    || ((org.springframework.core.io.Resource) resource).isReadable()) 
-                    {
+                    || ((org.springframework.core.io.Resource) resource).isReadable()) {
                 return resource;
-            } 
-            else 
-            {
+            } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                         "File Cannot be Downloaded");
             }
@@ -120,8 +111,6 @@ public class ProductServices {
             System.out.println(e);
         }
         return null;
-    }   
-
- 
+    }
 
 }

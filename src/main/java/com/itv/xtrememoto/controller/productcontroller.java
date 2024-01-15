@@ -23,7 +23,7 @@ import com.itv.xtrememoto.services.ProductServices;
 
 import jakarta.validation.Valid;
 
-@CrossOrigin(origins = {"*"},maxAge = 4800,allowCredentials = "false")
+@CrossOrigin(origins = { "*" }, maxAge = 4800, allowCredentials = "false")
 
 @RestController
 public class productcontroller {
@@ -31,68 +31,71 @@ public class productcontroller {
     @Autowired
     private ProductServices productServices;
 
-    // adding data
+    // adding product
     @PostMapping("/products")
     public ResponseEntity<?> registerMob(@RequestBody @Valid RegisterProductDto registerProductDto) {
         return new ResponseEntity<>(this.productServices.registerproduct(registerProductDto), HttpStatus.CREATED);
     }
 
-    // retriving data
+    // retriving product
     @GetMapping("/products")
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(this.productServices.getAll());
     }
 
-    // searching data
+    // searching product
     @GetMapping("/products/{id}")
     public ResponseEntity<?> getById(@PathVariable Integer id) {
-        Product mobExits = this.productServices.getById(id);
-        if (mobExits != null) {
-            return new ResponseEntity<>(mobExits, HttpStatus.OK);
+        Product productExits = this.productServices.getById(id);
+        if (productExits != null) {
+            return new ResponseEntity<>(productExits, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("mob not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Product not found", HttpStatus.NOT_FOUND);
         }
     }
 
-    
+    // Delete product
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<?> deletepet(@PathVariable Integer id) {
-        Product mobExits = this.productServices.getById(id);
-        if (mobExits != null) {
+    public ResponseEntity<?> deleteproduct(@PathVariable Integer id) {
+        Product productExits = this.productServices.getById(id);
+        if (productExits != null) {
             this.productServices.deleteproduct(id);
-            return new ResponseEntity<>("mob deleted sucessfully", HttpStatus.OK);
+            return new ResponseEntity<>("product deleted sucessfully", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("mob not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("product not found", HttpStatus.NOT_FOUND);
         }
     }
 
+    // update product
     @PutMapping("/products/{id}")
-    public ResponseEntity<?> updatemob(@PathVariable Integer id) {
-        Product mobExits = this.productServices.getById(id);
-        if (mobExits != null) {
+    public ResponseEntity<?> updateproduct(@PathVariable Integer id) {
+        Product productExits = this.productServices.getById(id);
+        if (productExits != null) {
             this.productServices.deleteproduct(id);
-            return new ResponseEntity<>("mob update sucessfully", HttpStatus.OK);
+            return new ResponseEntity<>("product update successfully", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("mob not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("product not found", HttpStatus.NOT_FOUND);
         }
     }
 
+    // find product
     @GetMapping("/products/searchbyname")
     public ResponseEntity<?> findByname(@RequestParam("name") String name) {
         List<Product> products = this.productServices.findByName(name);
         if (products.isEmpty()) {
-            return new ResponseEntity<>("no mob exist with this  name", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("no product exist with this  name", HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(this.productServices.findByName(name), HttpStatus.NOT_FOUND);
         }
     }
 
+    // upload file
     @PutMapping("/products/{id}/upload")
     public ResponseEntity<?> upload(@PathVariable Integer id, @RequestParam MultipartFile file) {
         System.out.println("File Uploaded");
         return ResponseEntity.ok(this.productServices.uploadFile(id, file));
     }
-
+    //download file
     @GetMapping("/products/download/{filename}")
     public ResponseEntity<?> download(@PathVariable String filename) {
         UrlResource resource = this.productServices.downloadFile(filename);
@@ -100,6 +103,5 @@ public class productcontroller {
                 .header("attachment; filename=\"" + filename + "\"")
                 .body(resource);
     }
-   
 
 }
