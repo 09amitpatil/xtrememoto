@@ -22,7 +22,7 @@ import com.itv.xtrememoto.repositories.ProductRepository;
 @Service
 public class ProductServices {
     @Autowired
-    private ProductRepository repository;
+    private ProductRepository productRepository;
 
     public Product registerproduct(RegisterProductDto registerproductDto) {
         Product product = new Product();
@@ -30,30 +30,30 @@ public class ProductServices {
         product.setManufature(registerproductDto.getManufature());
         product.setPrice(registerproductDto.getPrice());
         product.setDescription(registerproductDto.getDescription());
-        repository.save(product);
+        productRepository.save(product);
         return product;
 
     }
 
     public List<Product> getAll() {
-        return repository.findAll();
+        return productRepository.findAll();
     }
 
     public Product getById(Integer id) {
-        return repository.findById(id).orElse(null);
+        return productRepository.findById(id).orElse(null);
     }
 
     public void deleteproduct(Integer id) {
-        repository.deleteById(id);
+        productRepository.deleteById(id);
     }
 
     public Product updateproduct(Integer id, Product product) {
         product.setId(id);
-        return repository.save(product);
+        return productRepository.save(product);
     }
 
     public List<Product> findByName(String name) {
-        return this.repository.findByName(name);
+        return this.productRepository.findByName(name);
     }
 
     private final java.nio.file.Path rootLocation;
@@ -86,9 +86,9 @@ public class ProductServices {
                 .path(file.getOriginalFilename())
                 .toUriString();
 
-        Product product = this.repository.findById(id).get();
+        Product product = this.productRepository.findById(id).get();
         product.setImageUrl(imageUrl);
-        this.repository.save(product);
+        this.productRepository.save(product);
 
         return "File Uploaded Successfully";
     }

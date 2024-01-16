@@ -95,6 +95,8 @@ public class productcontroller {
         System.out.println("File Uploaded");
         return ResponseEntity.ok(this.productServices.uploadFile(id, file));
     }
+    
+    
     //download file
     @GetMapping("/products/download/{filename}")
     public ResponseEntity<?> download(@PathVariable String filename) {

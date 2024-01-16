@@ -12,7 +12,7 @@ import com.itv.xtrememoto.repositories.UserRepository;
 public class UserServices {
 
    @Autowired
-   private UserRepository repository;
+   private UserRepository userRepository;
 
    public User registerUser(RegistorUserDto registorUserDto) {
       User user = new User();
@@ -21,34 +21,34 @@ public class UserServices {
       user.setEmail(registorUserDto.getEmail());
       user.setPassword(registorUserDto.getPassword());
       user.setMobile(registorUserDto.getMobile());
-      repository.save(user);
+      userRepository.save(user);
       return user;
 
    }
 
    public List<User> getAll() {
-      return repository.findAll();
+      return userRepository.findAll();
    }
 
    public User getById(Integer id) {
-      return repository.findById(id).orElse(null);
+      return userRepository.findById(id).orElse(null);
    }
 
    public void deleteuser(Integer id) {
-      repository.deleteById(id);
+      userRepository.deleteById(id);
    }
 
    public User updateUser(Integer id, User user) {
       user.setId(id);
-      return repository.save(user);
+      return userRepository.save(user);
    }
 
    public List<User> findByfirstname(String firstname) {
-      return this.repository.findByfirstname(firstname);
+      return this.userRepository.findByfirstname(firstname);
    }
 
    public List<User> findByemail(String email) {
-      return this.repository.findByemailContaining(email);
+      return this.userRepository.findByemailContaining(email);
    }
 
 }
