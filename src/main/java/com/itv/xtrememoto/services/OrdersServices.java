@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.itv.xtrememoto.dtos.RegisterOrdersDto;
 import com.itv.xtrememoto.entities.Orders;
-import com.itv.xtrememoto.entities.Product;
 import com.itv.xtrememoto.repositories.OrderRepository;
 
 @Service
@@ -15,22 +14,24 @@ public class OrdersServices {
     @Autowired
     private OrderRepository orderRepository;
 
-    public Orders registerOrders(RegisterOrdersDto registerOrdersDto){
-        Orders orders =new Orders();
+    public Orders registerOrders(RegisterOrdersDto registerOrdersDto) {
+        Orders orders = new Orders();
         orders.setStatus(registerOrdersDto.getStatus());
+        orders.setItems(registerOrdersDto.getItems());
         orders.setTotalprice(registerOrdersDto.getTotalprice());
         orderRepository.save(orders);
         return orders;
 
     }
 
-    public List<Orders>getAll(){
+    public List<Orders> getAll() {
         return orderRepository.findAll();
     }
 
-    public Orders getById(Integer id){
+    public Orders getById(Integer id) {
         return orderRepository.findById(id).orElse(null);
     }
+
     public void deleteorders(Integer id) {
         orderRepository.deleteById(id);
     }

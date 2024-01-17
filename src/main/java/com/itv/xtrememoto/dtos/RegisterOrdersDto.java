@@ -6,6 +6,7 @@ import lombok.Data;
 public class RegisterOrdersDto {
     private Integer id;
     private String status;
+    private String items;
     private Float totalprice;
 
 }

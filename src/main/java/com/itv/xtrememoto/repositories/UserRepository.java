@@ -9,7 +9,6 @@ import com.itv.xtrememoto.entities.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     List<User> findByfirstname(String firstname);
-
     List<User> findByemailContaining(String email);
 
 }

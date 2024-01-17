@@ -16,19 +16,18 @@ import jakarta.validation.Valid;
 @RestController
 public class OrderController {
     @Autowired
-private OrdersServices ordersServices;
+    private OrdersServices ordersServices;
 
     // Adding orders
-    @PostMapping
-    public ResponseEntity<?> registerOrders(@RequestBody @Valid RegisterOrdersDto registerOrdersDto){
-        return new ResponseEntity<>(this.ordersServices.registerOrders(registerOrdersDto),HttpStatus.CREATED);
+    @PostMapping("/orders")
+    public ResponseEntity<?> registerOrders(@RequestBody @Valid RegisterOrdersDto registerOrdersDto) {
+        return new ResponseEntity<>(this.ordersServices.registerOrders(registerOrdersDto), HttpStatus.CREATED);
     }
-    
-     // retriving orders
+
+    // retriving orders
     @GetMapping("/orders")
     public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(this.ordersServices.getAll());
     }
 
-    
 }

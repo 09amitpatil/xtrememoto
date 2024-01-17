@@ -16,6 +16,7 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String status;
+    private String items;
     private Float totalprice;
 
     @ManyToMany(mappedBy = "orders")
